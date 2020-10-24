@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmailVerifyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+
+// Route::middleware('cors')->group(function(){
+//     Route::post('/user', function() {
+//         return "123";
+//     });
+//  });
+
+Route::get('/users', [UserController::class, 'findUsers']);
+
+Route::post('/user', [UserController::class, 'createUser']);
+Route::post('/user/update', [UserController::class, 'updateUser']);
+Route::post('/user/check', [UserController::class, 'findUser']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/email', [EmailVerifyController::class, 'sendVerifyCode']);

@@ -1,37 +1,19 @@
 <template>
   <v-app>
-    <Header @clickMenuValue="MenuValue"/>
-    <Signup :open="openSignup" v-if="openSignup" @close="CloseSignup" />
-    <router-view></router-view>
+    <Header />
+    <v-container fluid>
+      <router-view></router-view>
+    </v-container>
   </v-app>
 </template>
 
 <script>
-import Header from '@/components/Header';
-import Signup from '@/views/Signup';
+import Header from "@/components/Header";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
-    Signup,
   },
-  data() {
-    return {
-      openSignup: false
-    }
-  },
-  methods: {
-    MenuValue(value) {
-      switch(value) {
-        case 0:
-          this.openSignup = true;
-          break;
-      }
-    },
-    CloseSignup(){
-      this.openSignup = false;
-    }
-  }
 };
 </script>
 
