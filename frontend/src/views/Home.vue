@@ -23,7 +23,7 @@
 export default {
   created() {
     if (window.localStorage.getItem("token") != null) {
-      this.$store.dispatch("CheckLogin", window.localStorage.getItem("token"));
+      this.$store.dispatch("CheckLogin");
     }
   },
   data() {

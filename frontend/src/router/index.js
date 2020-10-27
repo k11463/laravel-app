@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import Signup from '@/views/Signup'
 import Login from '@/views/Login'
-import CommentList from '@/views/CommentList'
+import Posts from '@/views/Posts'
 import MemberData from '@/views/MemberData'
-import CreateComment from '@/views/CreateComment'
-import Comment from '@/views/Comment'
+import CreatePost from '@/views/CreatePost'
+import Post from '@/views/Post'
+import UpdatePost from '@/views/UpdatePost'
 
 Vue.use(VueRouter)
 
@@ -17,10 +18,6 @@ const routes = [
     component: Home,
     meta: { requiresAuth: false },
   },
-  // {
-  //   path: '/test',
-  //   component: () => import('@/views/test')
-  // },
   {
     path: '/signup',
     name: 'signup',
@@ -34,28 +31,34 @@ const routes = [
     meta: { requiresAuth: false }
   },
   {
-    path: '/commentList',
-    name: 'commentList',
-    component: CommentList,
-    meta: { requiresAuth: false }
-  },
-  {
     path: '/memberData',
     name: 'memberData',
     component: MemberData,
     meta: { requiresAuth: true }
   },
   {
-    path: '/createComment',
-    name: 'createComment',
-    component: CreateComment,
+    path: '/create_post',
+    name: 'create_post',
+    component: CreatePost,
     meta: { requiresAuth: true }
   },
   {
-    path: '/comment',
-    name: 'comment',
-    component: Comment,
+    path: '/posts',
+    name: 'posts',
+    component: Posts,
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/post',
+    name: 'post',
+    component: Post,
     meta: { requiresAuth: false }
+  },
+  {
+    path: '/update_post',
+    name: '/update_post',
+    component: UpdatePost,
+    meta: { requiresAuth: true }
   },
   {
     path: '*',

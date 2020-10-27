@@ -1,0 +1,42 @@
+.input_file {
+    width: 1px ;
+    height: 1px;
+    position: absolute;
+    left: -200%;
+}
+.input_file_label {
+    width: 240px;
+    height: 36px;
+}
+.input_file_label .hint_text {
+    height: 100%;
+    width: 80px;
+    float: left;
+    border: 1px solid gray;
+    border-radius: 4px 0px 0px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: rgb(238, 238, 238);
+    user-select: none;
+    cursor: pointer;
+}
+.input_file_label .file_text {
+    float: left;
+    height: 100%;
+    width: 158px;
+    border: 1px solid gray;
+    border-left: 0px;
+    border-radius: 0px 4px 4px 0px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+}
+.input_file_label .file_text:active {
+    background-color: rgb(112, 83, 83);
+}

@@ -137,7 +137,7 @@ export default {
       ],
       leftNavigation: null,
       navigationInfos: [
-        { icon: "mdi-message-text", title: "討論區", directTo: "/commentList" },
+        { icon: "mdi-message-text", title: "討論區", directTo: "/posts" },
       ],
       navBarItemIndex: -1,
       hint: {
@@ -186,6 +186,7 @@ export default {
 <style lang="scss" scoped>
 * {
   user-select: none;
+  @import "~vuetify/dist/vuetify.min";
 }
 .box {
   height: 7vh;

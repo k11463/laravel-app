@@ -3,11 +3,11 @@
     <v-row>
       <v-col lg="3"></v-col>
       <v-col lg="6" md="10" sm="12" cols="12">
-        <v-card class="member_data">
+        <v-card>
           <v-card-title style="font-weight: bold"> 會員資料 </v-card-title>
           <v-divider></v-divider>
           <v-container>
-            <v-row class="left_row">
+            <v-row>
               <v-col lg="6" cols="12">
                 <!-- 會員資料_左邊 -->
                 <v-row>
@@ -25,40 +25,32 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col lg="2"></v-col>
+                  <v-col lg="1"></v-col>
                   <v-col
                     class="center"
-                    lg="8"
-                    md="8"
+                    lg="10"
+                    md="10"
                     cols="12"
-                    style="padding: 0"
+                    style="padding-top: 0; position: relative"
                   >
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span
-                          class="input-group-text"
-                          id="inputGroupFileAddon01"
-                          >上傳圖片</span
-                        >
-                      </div>
-                      <div class="custom-file">
-                        <input
-                          type="file"
-                          id="inputGroupFile01"
-                          class="custom-file-input"
-                          @change="GetImageFile"
-                          aria-describedby="inputGroupFileAddon01"
-                        />
-                        <label
-                          class="custom-file-label center"
-                          for="inputGroupFile01"
-                          style="padding-right: 64%; overflow: hidden"
-                          >{{ imageFile.name }}</label
-                        >
-                      </div>
-                    </div>
+                    <input
+                      type="file"
+                      id="input_file"
+                      class="input_file"
+                      @change="GetImageFile"
+                    />
+                    <label for="input_file" class="input_file_label">
+                      <span class="hint_text">上傳圖片</span>
+                      <p class="file_text">{{ imageFile.name }}</p>
+                    </label>
+                    <v-icon
+                      v-if="imageFile.name != '選擇圖片'"
+                      class="clear_upload"
+                      @click="ClearUpload"
+                      >mdi-close</v-icon
+                    >
                   </v-col>
-                  <v-col lg="2"></v-col>
+                  <v-col lg="1"></v-col>
                 </v-row>
                 <v-row>
                   <v-col class="center" style="padding: 0">
@@ -76,9 +68,17 @@
                 </v-row>
               </v-col>
               <!-- 會員資料_右邊 -->
-              <v-col lg="6" cols="12" class="right_row">
-                <div v-for="(info, index) in infos" :key="index">
-                  <v-row>
+              <v-col
+                lg="6"
+                cols="12"
+                style="padding-top: 0; padding-bottom: 0; padding-left: 0"
+              >
+                <div
+                  v-for="(info, index) in infos"
+                  :key="index"
+                  class="right_row"
+                >
+                  <v-row :style="!info.hasEdit ? 'height: 60px' : null">
                     <v-col lg="3" class="row_title center">{{
                       info.title
                     }}</v-col>
@@ -180,18 +180,16 @@
 export default {
   mounted() {
     if (window.localStorage.getItem("token") != null) {
-      this.$store
-        .dispatch("CheckLogin", window.localStorage.getItem("token"))
-        .then((res) => {
-          this.infos[0].text = this.$store.state.user.name;
-          this.infos[1].text = this.$store.state.user.email;
-          this.infos[2].text = this.$store.state.user.phone;
-          this.infos[3].text = this.$store.state.user.rank;
-          this.infos[4].text = this.$store.state.user.money;
-          if (res != undefined) {
-            console.log("MemberData -> mounted : " + res);
-          }
-        });
+      this.$store.dispatch("CheckLogin").then((res) => {
+        this.infos[0].text = this.$store.state.user.name;
+        this.infos[1].text = this.$store.state.user.email;
+        this.infos[2].text = this.$store.state.user.phone;
+        this.infos[3].text = this.$store.state.user.rank;
+        this.infos[4].text = this.$store.state.user.money;
+        if (res != undefined) {
+          console.log("MemberData -> mounted : " + res);
+        }
+      });
     }
   },
   data() {
@@ -396,6 +394,12 @@ export default {
         this.imageFile.file = fileReader.result;
       };
     },
+    ClearUpload() {
+      this.imageFile.name = "選擇圖片";
+      this.imageFile.files = null;
+      this.imageFile.file = null;
+      document.getElementById("input_file").value = "";
+    },
   },
   computed: {
     GetImage() {
@@ -413,24 +417,27 @@ export default {
 .box {
   height: 90vh;
   overflow-y: scroll;
-  .member_data {
-    .left_row {
-      .avatar_title {
-        font-size: 20px;
-        font-weight: bold;
-      }
-      .uploadHint {
-        width: 34%;
-        font-size: 14px;
-        font-weight: bold;
-        color: red;
-      }
+  .avatar_title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .uploadHint {
+    width: 34%;
+    font-size: 14px;
+    font-weight: bold;
+    color: red;
+  }
+  .right_row {
+    margin-top: 26px;
+    .row_title {
+      font-weight: bold;
     }
-    .right_row {
-      .row_title {
-        font-weight: bold;
-      }
-    }
+  }
+  .clear_upload {
+    position: absolute;
+    right: 0px;
+    top: 6px;
+    cursor: pointer;
   }
 }
 ::-webkit-scrollbar {

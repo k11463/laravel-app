@@ -2,7 +2,7 @@
   <div class="box">
     <v-row style="height: 100%" class="center">
       <v-col lg="4"></v-col>
-      <v-col lg="4" md="6" sm="12" cols="12">
+      <v-col lg="4" md="8" sm="12" cols="12">
         <v-card>
           <v-card-title style="padding-bottom: 0; font-weight: bold"
             >會員註冊</v-card-title
@@ -41,7 +41,12 @@
                 lg="3"
                 md="3"
               >
-                <v-btn @click="SendEmailVerify">發送驗證信</v-btn>
+                <v-btn @click="SendEmailVerify" :disabled="emailLoading.loading"
+                  ><div v-if="!emailLoading.loading">發送驗證信</div>
+                  <div v-if="emailLoading.loading">
+                    {{ emailLoading.loadingTimer }}
+                  </div>
+                </v-btn>
               </v-col>
             </v-row>
             <v-row>

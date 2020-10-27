@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTokensTable extends Migration
+class CreateCommentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('tokens', function (Blueprint $table) {
-            $table->id('tid');
-            $table->text('token');
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->text('comment');
             $table->unsignedBigInteger('user_id');
-            $table->string('for');
+            $table->unsignedBigInteger('post_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('uid')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('pid')->on('posts')->onDelete('cascade');
         });
     }
 
@@ -31,9 +32,10 @@ class CreateTokensTable extends Migration
      */
     public function down()
     {
-        Schema::table('tokens', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['post_id']);
         });
-        Schema::dropIfExists('tokens');
+        Schema::dropIfExists('comments');
     }
 }

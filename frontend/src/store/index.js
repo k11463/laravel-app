@@ -48,10 +48,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    CheckLogin(context, payload) {
+    CheckLogin(context) {
       return new Promise((resolve, reject) => {
         db.post('/user/check', {
-          token: payload
+          token: window.localStorage.getItem('token')
         }).then((res) => {
           context.commit('setLogin', true);
           context.commit('setUserName', res.data.user_name);

@@ -25,7 +25,7 @@ class UserController extends Controller
             $user = $findUser->user;
             $checkImageIsExist = Storage::files($user->avatar);
             if ($checkImageIsExist != null){
-                $array_path = array('avatar' => 'Avatar.jpg');
+                $array_path = array('avatar' => 'avatar.jpg');
                 User::where('uid', $user->uid)->update($array_path);
                 return $user;
             }
@@ -41,14 +41,14 @@ class UserController extends Controller
     public function createUser(Request $req) {
         $findUser = User::where('email', $req->email)->first();
         if(!$findUser){
-            $checkVerify = $this->CheckVerify($req->email, $req->verify);
+            $checkVerify = $this->CheckVerify($req->email, $req->verify_code);
             if ($checkVerify) {
                 $user = new User;
                 $user->fill($req->all());
                 if ($user->user_name == ""){
                     $user->user_name = "智善的奴隸";
                 }
-                $user->avatar = 'Avatar.jpg';
+                $user->avatar = 'avatar.jpg';
                 $user->rank = "青銅";
                 $user->money = 0;
                 $user->password = Hash::make($req->password, [
@@ -155,10 +155,14 @@ class UserController extends Controller
                 }
             }
             else if ($req->type == 'img'){
-                $path = $req->avatar->store($req->storePath);
-                $array_path = array('avatar' => $path);
+                $imagePath = null;
+                $imagePath = $this->CheckSameImage($req->avatar, $req->storePath);
+                if ($imagePath == null) {
+                    $imagePath = $req->avatar->store($req->storePath);
+                }
+                $array_path = array('avatar' => $imagePath);
                 User::where('uid', $user->uid)->update($array_path);         
-                return response()->json(['msg' => '變更頭像成功', 'path' => $path], 200);
+                return response()->json(['msg' => '變更頭像成功', 'path' => $imagePath], 200);
             }
         }
         else {
@@ -170,7 +174,7 @@ class UserController extends Controller
         $findVerify = EmailVerify::where('email', $email)->first();
         if ($findVerify){
             if ($findVerify->verify_code == $code){
-                EmailVerify::where('email', $req->email)->delete();
+                EmailVerify::where('email', $email)->delete();
                 return true;
             }
             else {
@@ -180,5 +184,17 @@ class UserController extends Controller
         else {
             return false;
         }
+    }
+
+    public function CheckSameImage($image, $storePath) {
+        $md5_img = md5_file($image);
+        foreach(Storage::files($storePath) as $filename){
+            $md5_storage_img = md5(Storage::get($filename));
+            if ($md5_img == $md5_storage_img){
+                return str_replace("C:\Users\k7766\Desktop\laravel app\backend\storage\app\\", '', Storage::path($filename));
+                break;
+            }
+        }
+        return false;
     }
 }

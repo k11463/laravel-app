@@ -19,7 +19,6 @@ class EmailVerifyController extends Controller
             }
             $message = random_int(1, 99999999);
             $email_verify = new EmailVerify;
-            error_log($req->email);
             $email_verify->email = $req->email;
             $email_verify->verify_code = $message;
             $email_verify->save();

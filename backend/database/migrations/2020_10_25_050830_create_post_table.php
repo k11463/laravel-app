@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTokensTable extends Migration
+class CreatePostTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('tokens', function (Blueprint $table) {
-            $table->id('tid');
-            $table->text('token');
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id('pid');
+            $table->string('cover');
+            $table->string('title');
+            $table->string('class');
+            $table->text('content');
             $table->unsignedBigInteger('user_id');
-            $table->string('for');
             $table->timestamps();
 
             $table->foreign('user_id')->references('uid')->on('users')->onDelete('cascade');
@@ -31,9 +33,9 @@ class CreateTokensTable extends Migration
      */
     public function down()
     {
-        Schema::table('tokens', function (Blueprint $table) {
+        Schema::table('posts', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
         });
-        Schema::dropIfExists('tokens');
+        Schema::dropIfExists('posts');
     }
 }

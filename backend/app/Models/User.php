@@ -22,7 +22,19 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function tokens(){
+    public function tokens() {
         return $this->hasMany('App\Models\Token', 'user_id', 'uid');
+    }
+
+    public function posts() {
+        return $this->hasMany('App\Models\Post', 'user_id', 'uid');
+    }
+
+    public function comments() {
+        return $this->hasMany('App\Models\Comment', 'user_id', 'uid');
+    }
+
+    public function post_scores() {
+        return $this->hasMany('App\Models\PostScore', 'user_id', 'uid');
     }
 }
